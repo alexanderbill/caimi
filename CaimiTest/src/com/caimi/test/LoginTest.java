@@ -46,8 +46,14 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
 		solo.sleep(5000);
 
 		EditText pass = (EditText) solo.getView("id/et_password");
-		solo.enterText(pass,"hfr111712");
+		solo.enterText(pass,"hfr11171");
 		Button btn = (Button) solo.getView("id/bt_login");
+		solo.clickOnView(btn);
+
+		solo.sleep(5000);
+
+		solo.enterText(pass,"hfr111712");
+		btn = (Button) solo.getView("id/bt_login");
 		solo.clickOnView(btn);
 
 		solo.sleep(5000);
