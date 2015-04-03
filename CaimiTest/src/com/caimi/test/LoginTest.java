@@ -6,6 +6,9 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
 	private static String mainActiviy = "caimi.qidong.activity.MainTabActivity";
 	private static String packageName = "com.caimi";
 	private static int DELAY = 1000;
+	private static int LONG_DELAY = 5000;
 
 	static {
 		try {
@@ -75,15 +79,99 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
 		solo.getView("id/tv_nickname");
 	}
 
-	public void testTab2() {
+	public void testTab1JifenGet() {
+		TabWidget tab = (TabWidget) solo.getView("id/tabs");
+		View buyTab = tab.getChildAt(0);
+		solo.clickOnView(buyTab);
+		solo.sleep(DELAY);
+
+		GridView grid = (GridView) solo.getView("id/jiFenGridView");
+		View getJifen = grid.getChildAt(1);
+		solo.clickOnView(getJifen);
+		solo.waitForActivity("caimigame.AppActivity");
+
+		solo.sleep(DELAY);
+		solo.goBack();
+	}
+
+	public void testTab1JifenSpend() {
+		TabWidget tab = (TabWidget) solo.getView("id/tabs");
+		View buyTab = tab.getChildAt(0);
+		solo.clickOnView(buyTab);
+		solo.sleep(DELAY);
+
+		GridView grid = (GridView) solo.getView("id/jiFenGridView");
+		View getJifen = grid.getChildAt(3);
+		solo.clickOnView(getJifen);
+		solo.waitForActivity("caimi.faxian.jifenjingcai.activity.JiFenShangChengActivity");
+
+		int time = 2;
+		for (int i=0; i<time; i++) {
+
+		    solo.sleep(LONG_DELAY);
+		    GridView sc = (GridView) solo.getView("id/gv_shangcheng");
+		    View item = sc.getChildAt(1);
+		    solo.clickOnView(item);
+
+		    solo.sleep(DELAY);
+		    solo.waitForActivity("caimi.faxian.jifenjingcai.activity.JiFenShangChengActivity");
+		    // FrameLayout select = (FrameLayout)solo.getView("id/content");
+		    // int id = getRe("tv_title", "id");
+		    // View selectY = select.findViewById(id);
+		    solo.clickOnButton("确定");
+
+		    solo.sleep(7000);
+		    solo.waitForActivity("caimi.faxian.jifenjingcai.activity.JiFenShangChengActivity");
+		    //View guojiang = solo.getView("id/bt_right");
+		    solo.clickOnButton("立即刮奖");
+
+		    solo.sleep(LONG_DELAY);
+		    //View auto = solo.getView("id/auto_guojiang");
+		    solo.clickOnButton("自动刮奖");
+		    solo.goBack();
+		}
+		solo.goBack();
+	}
+
+	private int getRe(String type, String value) {
+	    return this.activity.getResources().getIdentifier(value, type, this.activity.getPackageName());
+	}
+
+	public void testTab2Goucai0() { // tab2的第一个彩
+		atestTab2Goucai(0);
+	}
+
+	public void testTab2Goucai1() {// tab2的第2个彩
+		atestTab2Goucai(1);
+	}
+
+	public void atestTab2Goucai2() {// tab2的第3个彩
+		atestTab2Goucai(2);
+	}
+
+	public void atestTab2Goucai3() {// tab2的第4个彩
+		atestTab2Goucai(3);
+	}
+
+	public void atestTab2Goucai4() {// tab2的第5个彩
+		atestTab2Goucai(4);
+	}
+
+	public void atestTab2Goucai5() {// tab2的第6个彩
+		atestTab2Goucai(5);
+	}
+
+	public void atestTab2Goucai(int pos) {  //测试第2个tab的购彩
+	  int time = 1;
+	  for (int i=0; i<time; i++) {
 		TabWidget tab = (TabWidget) solo.getView("id/tabs");
 		View buyTab = tab.getChildAt(1);
 		solo.clickOnView(buyTab);
 
 		solo.sleep(DELAY);
 
-		ViewPager buy = (ViewPager) solo.getView("id/pager");
-		View v = buy.getChildAt(0);
+		ListView buy = (ListView) solo.getView("id/lotteryListView");
+		View v = buy.getChildAt(pos);
 		solo.clickOnView(v);
 
 		solo.waitForActivity("caimi.xuanhao.activity.XuanHaoActivity");
@@ -106,7 +194,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2 {
 		solo.waitForActivity("caimi.shuzigaopin.activity.JieSuanActivity");
 		View close = solo.getView("id/close");
 		solo.clickOnView(close);
-
+	  }
 		// solo.waitForActivity(mainActiviy);
 	}
 
